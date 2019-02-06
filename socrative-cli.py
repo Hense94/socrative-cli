@@ -1,3 +1,5 @@
+import sys
+
 import PyInquirer as inq
 import click
 import json
@@ -24,6 +26,9 @@ class Connection:
     def getActivityIds(self):
         r = requests.get('https://api.socrative.com/rooms/api/current-activity/{}'.format(self.room))
         response = r.json()
+
+        if r.status_code != 200:
+            sys.exit('Invalid room name')
 
         self.activityID = response['activity_id']
         self.activityInstanceID = response['id']
