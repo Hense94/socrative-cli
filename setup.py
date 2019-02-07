@@ -34,4 +34,8 @@ setup(
         'click',
         'requests'
     ],
+
+    entry_points={
+        'console_scripts': ['socrative-cli=socrativecli.main:main']
+    }
 )
