@@ -1,21 +1,22 @@
 import PyInquirer as inq
 import click
 
-from socrative.connection import Connection
+from socrativecli.connection import Connection
 
 
 @click.command()
 @click.argument('room')
 @click.option('--name', '-n', help='The name to identify yourself with')
 def main(room, name):
-    c = Connection(room, name)
+    c = Connection(True, room, name)
 
     while c.nameRequired and not c.isNameSet():
         question = {'type': 'input', 'name': 'student_name', 'message': 'This room requires a name. Please enter one'}
         name = inq.prompt(question)['student_name']
         c.name = name
 
-    c.setName()
+    if c.isNameSet():
+        c.setName()
 
     for question in c.questions:
         pyInqQuestion, t = convertQuestion(question)

@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     # Application name:
-    name='socrative-cli',
+    name='socrativecli',
 
     # Version number (initial):
     version='1.0.0',
@@ -12,13 +12,13 @@ setup(
     author_email='hhs19942@gmail.com',
 
     # Packages
-    packages=['socrative-cli'],
+    packages=['socrativecli'],
 
     # Include additional files into the package
     include_package_data=True,
 
     # URL
-    url='https://github.com/Hense94/socrative-cli',
+    url='https://github.com/Hense94/socrativecli',
 
     # License
     license='LICENSE.txt',
@@ -26,7 +26,7 @@ setup(
     # Description
     description='Answer Socrative questions through your terminal',
 
-    long_description=open('README.md').read(),
+    long_description=open('README').read(),
 
     # Dependent packages (distributions)
     install_requires=[
