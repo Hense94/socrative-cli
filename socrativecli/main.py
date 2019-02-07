@@ -21,27 +21,40 @@ def main(room, name):
     for question in c.questions:
         pyInqQuestion, t = convertQuestion(question)
         answers = inq.prompt(pyInqQuestion)
-        c.answerQuestion(answers, t)
+        c.sendAnswer(answers, t)
 
 
 def convertQuestion(question):
-    t = question['type']
+    _type = question['type']
+    inqQuestion = {'name': question['question_id'], 'message': question['question_text']}
 
-    if t == 'FR':
-        q = {'type': 'input', 'name': question['question_id'], 'message': question['question_text']}
-        return q, t
+    if _type == 'FR':
+        inqQuestion['type'] = 'input'
+        return inqQuestion, _type
 
-    if t == 'MC' or 'TF':
-        answers = []
-        for answer in question['answers']:
-            answers.append({'name': answer['text'], 'value': str(answer['id'])})
+    if _type == 'MC' or 'TF':
+        correctAnswers = question['total_correct_answers']
+        if correctAnswers == 1:
+            inqQuestion['type'] = 'list'
+            _type = 'SC'
 
-        if question['total_correct_answers'] == 1:
-            q = {'type': 'list', 'name': question['question_id'], 'message': question['question_text'], 'choices': answers}
-            return q, 'SC'
         else:
-            q = {'type': 'checkbox', 'name': question['question_id'], 'message': question['question_text'], 'choices': answers}
-            return q, t
+            inqQuestion['type'] = 'checkbox'
+            inqQuestion['message'] = '{} ({} correct)'.format(question['question_text'], correctAnswers)
+            #inqQuestion['validate'] = lambda a: 'You must choose at most {} answers'.format(correctAnswers) if len(a) > correctAnswers else True
+
+        inqQuestion['choices'] = [{'name': a['text'], 'value': str(a['id'])} for a in question['answers']]
+
+        return [inqQuestion], _type
+
+
+class MultiChoiceValidator(inq.Validator):
+    def validate(self, answer):
+        print(answer)
+        if len(answer) > 2:
+            raise inq.ValidationError(
+                message='Please enter a number',
+                cursor_position=len(answer.text))  # Move cursor to end
 
 
 if __name__ == '__main__':

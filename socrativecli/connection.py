@@ -74,9 +74,13 @@ class Connection:
 
         self.print('Done!')
 
-    def answerQuestion(self, answers, _type):
+    def sendAnswer(self, answers, _type):
+        answerList = list(answers.keys())
+        if len(answers) == 0:
+            sys.exit('')
+
         cookies = {'sa': self.authToken}
-        questionID = list(answers.keys())[0]
+        questionID = answerList[0]
         data = {'question_id': questionID, 'activity_instance_id': self.activityInstanceID}
 
         if _type == 'MC':
