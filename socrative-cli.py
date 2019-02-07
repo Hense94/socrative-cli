@@ -1,5 +1,4 @@
 import sys
-
 import PyInquirer as inq
 import click
 import json
