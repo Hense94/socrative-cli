@@ -7,15 +7,20 @@ Tired of opening a browser to answer a question on Socrative? Fret no more, Socr
 - Pip3
 
 # Installation
-Building from source
+Installing directly from GitHub
 ```bash
-python3 setup.py sdist
-pip3 install dist/socrative-cli-1.0.1.tar.gz
+pip3 install git+https://github.com/hense94/socrative-cli
 ```
 
 Installing from binary
 ```bash
 pip3 install socrative-cli-1.0.1.tar.gz
+```
+
+Building from source
+```bash
+python3 setup.py sdist
+pip3 install dist/socrative-cli-1.0.1.tar.gz
 ```
 
 # Usage
